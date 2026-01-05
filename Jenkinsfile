@@ -50,15 +50,21 @@ pipeline {
     }
 
     post {
-        success {
-            mail to: 'vinodshivkumar4@gmail.com',
-                 subject: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "The Jenkins build succeeded! See details: ${env.BUILD_URL}"
-        }
-        failure {
-            mail to: 'vinodshivkumar4@gmail.com',
-                 subject: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "The Jenkins build failed! See details: ${env.BUILD_URL}"
-        }
+    success {
+        emailext(
+            to: 'vinodshivkumar4@gmail.com',
+            subject: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "The Jenkins build succeeded! See details: ${env.BUILD_URL}",
+            mimeType: 'text/html'
+        )
+    }
+    failure {
+        emailext(
+            to: 'vinodshivkumar4@gmail.com',
+            subject: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "The Jenkins build failed! See details: ${env.BUILD_URL}",
+            mimeType: 'text/html'
+        )
     }
 }
+
